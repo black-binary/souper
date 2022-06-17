@@ -3,3 +3,5 @@ third_party
 build
 build-*
 *~
+.cache
+.vscode
