@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+export CC=clang
+export CXX=clang++
+
 if [ -d "third_party" ]; then
   echo "Directory third_party exists, remove this directory before running build_deps.sh."
   exit 1;
@@ -32,7 +35,7 @@ alive_commit=v2-fix-cstring
 alive_repo=https://github.com/black-binary/alive2.git
 z3_repo=https://github.com/Z3Prover/z3.git
 # latest as of May 25 2021
-z3_commit=322531e95cb7da59b4596000ffbc92d792433f17
+z3_commit=z3-4.8.17
 
 llvm_build_type=Release
 if [ -n "$1" ] ; then
