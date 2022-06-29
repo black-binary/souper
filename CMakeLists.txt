@@ -283,10 +283,9 @@ set(SOUPER_SOURCES
   ${SOUPER_INFER_FILES}
   ${SOUPER_CODEGEN_FILES})
 
-add_library(souperAllInOne SHARED
+add_library(souperAll STATIC
   ${KLEE_EXPR_FILES}
   ${SOUPER_SOURCES}
-  tools/all-in-one.cpp
 )
 
 add_library(souperPass SHARED
@@ -400,7 +399,7 @@ configure_file(
 foreach(target souper internal-solver-test lexer-test parser-test souper-check count-insts
                souper2llvm souper-interpret
                souperExtractor souperInfer souperInst souperKVStore souperParser
-               souperSMTLIB2 souperTool souperAllInOne souperPass souperPassProfileAll kleeExpr
+               souperSMTLIB2 souperTool souperAll souperPass souperPassProfileAll kleeExpr
                souperCodegen)
   set_target_properties(${target} PROPERTIES COMPILE_FLAGS "${LLVM_CXXFLAGS}")
   target_include_directories(${target} PRIVATE "${LLVM_INCLUDEDIR}")
@@ -425,8 +424,8 @@ target_link_libraries(souperParser souperInst ${LLVM_LIBS} ${LLVM_LDFLAGS} ${ALI
 target_link_libraries(souperSMTLIB2 ${LLVM_LIBS} ${LLVM_LDFLAGS})
 target_link_libraries(souperTool souperExtractor souperSMTLIB2)
 target_link_libraries(souperCodegen ${LLVM_LIBS} ${LLVM_LDFLAGS})
-target_link_libraries(souperAllInOne PUBLIC ${LLVM_LIBS} ${LLVM_LDFLAGS})
-target_link_libraries(souperAllInOne PRIVATE ${Z3_LIBRARY} ${ALIVE_LIBRARY} ${HIREDIS_LIBRARY})
+target_link_libraries(souperAll PUBLIC ${LLVM_LIBS} ${LLVM_LDFLAGS})
+target_link_libraries(souperAll PRIVATE ${Z3_LIBRARY} ${ALIVE_LIBRARY} ${HIREDIS_LIBRARY})
 
 # dynamic
 target_link_libraries(souperCodegen ${PASS_LDFLAGS})
