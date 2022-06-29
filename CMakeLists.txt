@@ -158,17 +158,23 @@ else()
   message(SEND_ERROR "Alive2 libutil.a not found")
 endif()
 
-set(Z3 "${CMAKE_SOURCE_DIR}/third_party/z3-install/bin/z3")
-set(Z3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/third_party/z3-install/include")
+#set(Z3 "${CMAKE_SOURCE_DIR}/third_party/z3-install/bin/z3")
+#set(Z3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/third_party/z3-install/include")
+#include_directories(${Z3_INCLUDE_DIR})
+
+#find_library(Z3_LIBRARY z3 PATHS "${CMAKE_SOURCE_DIR}/third_party/z3-install/lib" NO_DEFAULT_PATH)
+#if (Z3_LIBRARY)
+#  message(STATUS "Z3 shared lib: ${Z3_LIBRARY}")
+#else()
+#  message(SEND_ERROR "Z3 shared lib not found")
+#endif()
+
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+find_package(Z3 REQUIRED)
 include_directories(${Z3_INCLUDE_DIR})
+set(Z3 "${Z3_INCLUDE_DIR}/../bin/z3")
 
-find_library(Z3_LIBRARY z3 PATHS "${CMAKE_SOURCE_DIR}/third_party/z3-install/lib" NO_DEFAULT_PATH)
-if (Z3_LIBRARY)
-  message(STATUS "Z3 shared lib: ${Z3_LIBRARY}")
-else()
-  message(SEND_ERROR "Z3 shared lib not found")
-endif()
-
+set(Z3_LIBRARY ${Z3_LIBRARIES})
 set(ALIVE_LIBRARY ${ALIVE_IR} ${ALIVE_SMT} ${ALIVE_TOOLS} ${ALIVE_UTIL} ${Z3_LIBRARY})
 
 set(SOUPER_CLANG_TOOL_FILES

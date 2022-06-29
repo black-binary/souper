@@ -33,9 +33,8 @@ klee_repo=https://github.com/black-binary/klee
 klee_branch=pure-bv-qf-llvm-7.0
 alive_commit=v2-fix-cstring
 alive_repo=https://github.com/black-binary/alive2.git
-z3_repo=https://github.com/Z3Prover/z3.git
-# latest as of May 25 2021
-z3_commit=z3-4.8.17
+#z3_repo=https://github.com/Z3Prover/z3.git
+#z3_commit=z3-4.8.17
 
 llvm_build_type=Release
 if [ -n "$1" ] ; then
@@ -43,19 +42,19 @@ if [ -n "$1" ] ; then
   shift
 fi
 
-z3_srcdir=$(pwd)/third_party/z3
-z3_builddir=$(pwd)/third_party/z3-build
-z3_installdir=$(pwd)/third_party/z3-install
-(git clone $z3_repo $z3_srcdir && git -C $z3_srcdir checkout $z3_commit)
-mkdir -p $z3_builddir
-(cd $z3_builddir && cmake -Wno-dev ../z3 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$z3_installdir -DZ3_BUILD_LIBZ3_SHARED=On -DZ3_BUILD_PYTHON_BINDINGS=Off && ninja && ninja install)
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  # Mac
-  Z3_SHAREDLIB=libz3.dylib
-else
-  Z3_SHAREDLIB=libz3.so
-fi
+# z3_srcdir=$(pwd)/third_party/z3
+# z3_builddir=$(pwd)/third_party/z3-build
+# z3_installdir=$(pwd)/third_party/z3-install
+# (git clone $z3_repo $z3_srcdir && git -C $z3_srcdir checkout $z3_commit)
+# mkdir -p $z3_builddir
+# (cd $z3_builddir && cmake -Wno-dev ../z3 -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$z3_installdir -DZ3_BUILD_LIBZ3_SHARED=On -DZ3_BUILD_PYTHON_BINDINGS=Off && ninja && ninja install)
+# 
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#   # Mac
+#   Z3_SHAREDLIB=libz3.dylib
+# else
+#   Z3_SHAREDLIB=libz3.so
+# fi
 
 alivedir=$(pwd)/third_party/alive2
 alive_builddir=$(pwd)/third_party/alive2-build
@@ -63,10 +62,10 @@ mkdir -p $alivedir $alive_builddir
 git clone $alive_repo $alivedir --branch $alive_commit
 
 if [ -n "`which ninja`" ] ; then
-  (cd $alive_builddir && cmake ../alive2 -DZ3_LIBRARIES=$z3_installdir/lib/$Z3_SHAREDLIB -DZ3_INCLUDE_DIR=$z3_installdir/include -DCMAKE_BUILD_TYPE=$llvm_build_type -GNinja)
+  (cd $alive_builddir && cmake ../alive2 -DCMAKE_BUILD_TYPE=$llvm_build_type -GNinja)
   ninja -C $alive_builddir
 else
-  (cd $alive_builddir && cmake ../alive2 -DZ3_LIBRARIES=$z3_installdir/lib/$Z3_SHAREDLIB -DZ3_INCLUDE_DIR=$z3_installdir/include -DCMAKE_BUILD_TYPE=$llvm_build_type)
+  (cd $alive_builddir && cmake ../alive2 DCMAKE_BUILD_TYPE=$llvm_build_type)
   make -C $alive_builddir -j $ncpus
 fi
 
