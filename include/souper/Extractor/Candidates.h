@@ -79,8 +79,10 @@ struct ExprBuilderOptions {
   /// does not perform escaping. It should only be used for debugging or with
   /// controlled IR input (i.e. the unit tests).
   bool NamedArrays;
+  llvm::Value *CandidateFilterInstruction;
 
-  ExprBuilderOptions() : NamedArrays(false) {}
+  // SATURN
+  ExprBuilderOptions() : NamedArrays(false), CandidateFilterInstruction(nullptr) {}
 };
 
 struct BlockInfo {
