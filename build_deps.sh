@@ -65,7 +65,7 @@ if [ -n "`which ninja`" ] ; then
   (cd $alive_builddir && cmake ../alive2 -DCMAKE_BUILD_TYPE=$llvm_build_type -GNinja)
   ninja -C $alive_builddir
 else
-  (cd $alive_builddir && cmake ../alive2 DCMAKE_BUILD_TYPE=$llvm_build_type)
+  (cd $alive_builddir && cmake ../alive2 -DCMAKE_BUILD_TYPE=$llvm_build_type)
   make -C $alive_builddir -j $ncpus
 fi
 
