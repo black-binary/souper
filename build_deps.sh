@@ -31,12 +31,13 @@ hiredis_commit=667dbf536524ba3f28c1d964793db1055c5a64f2
 # llvm_commit=disable-peepholes-llvm12-v03
 klee_repo=https://github.com/black-binary/klee
 klee_branch=pure-bv-qf-llvm-7.0
-alive_commit=v2-fix-cstring
+#alive_commit=v2-fix-cstring
+alive_commit=debug
 alive_repo=https://github.com/black-binary/alive2.git
 #z3_repo=https://github.com/Z3Prover/z3.git
 #z3_commit=z3-4.8.17
 
-llvm_build_type=Release
+llvm_build_type=Debug
 if [ -n "$1" ] ; then
   llvm_build_type="$1"
   shift
